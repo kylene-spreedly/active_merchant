@@ -2,6 +2,7 @@
 = ActiveMerchant CHANGELOG
 
 == HEAD
+* Adyen: Update Mastercard error messaging [kylene-spreedly] #4770
 
 == Version 1.129.0 (April 24th, 2023)
 * Adyen: Update selectedBrand mapping for Google Pay [jcreiff] #4763
