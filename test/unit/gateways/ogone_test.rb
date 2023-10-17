@@ -360,6 +360,13 @@ class OgoneTest < Test::Unit::TestCase
     end
   end
 
+  def test_api_key_secret
+    gateway = OgoneGateway.new({ api_key_id: '39u4193urng12',
+                                 secret_api_key: '109H/288H*50Y18W4/0G8571F245KA=' })
+    gateway.expects(:ssl_post).returns(successful_purchase_response)
+    gateway.purchase(@amount, @credit_card, @options)
+  end
+
   def test_signature_for_accounts_created_before_10_may_20101
     gateway = OgoneGateway.new(@credentials.merge(signature_encryptor: nil))
     assert signature = gateway.send(:add_signature, @parameters)

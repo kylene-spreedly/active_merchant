@@ -142,7 +142,11 @@ module ActiveMerchant #:nodoc:
       self.money_format = :cents
 
       def initialize(options = {})
-        requires!(options, :login, :user, :password)
+        if using_api_key_secret_auth_mode?
+          requires!(options, :api_key_id, :secret_api_key)
+        else
+          requires!(options, :login, :user, :password)
+        end
         super
       end
 
@@ -432,8 +436,13 @@ module ActiveMerchant #:nodoc:
 
       def post_data(action, parameters = {})
         add_pair parameters, 'Operation', action
-        add_signature(parameters)
+        add_signature(parameters) if using_api_key_secret_auth_mode?
         parameters.to_query
+      end
+
+      def using_api_key_secret_auth_mode?
+        # return true if using  api key/secret auth mode (check for provided parameters?)
+        # return false if using pspid
       end
 
       def add_signature(parameters)

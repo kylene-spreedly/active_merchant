@@ -85,6 +85,13 @@ class RemoteOgoneTest < Test::Unit::TestCase
     assert_equal OgoneGateway::SUCCESS_MESSAGE, response.message
   end
 
+  def test_successful_purchase_with_api_key_signature
+    gateway = OgoneGateway.new(fixtures(:ogone).slice(:api_key_id, :secret_api_key))
+    assert response = gateway.purchase(@amount, @credit_card, @options)
+    assert_success response
+    assert_equal OgoneGateway::SUCCESS_MESSAGE, response.message
+  end
+
   # NOTE: You have to contact Ogone to make sure your test account allow 3D Secure transactions before running this test
   def test_successful_purchase_with_3d_secure_v1
     assert response = @gateway.purchase(@amount, @credit_card_d3d, @options.merge(d3d: true))
